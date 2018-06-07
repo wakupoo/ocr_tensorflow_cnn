@@ -21,12 +21,12 @@ OUTPUT_SHAPE = (32,256)
 #训练最大轮次
 num_epochs = 10000
 
-num_hidden = 64
-num_layers = 1
+num_hidden = 64#####
+num_layers = 1#####
 
 obj = gen_id_card()
 
-num_classes = obj.len + 1 + 1  # 10位数字 + blank + ctc blank
+num_classes = obj.len + 1 + 1  # 10位数字 + blank + ctc blank ####有问题
 
 #初始化学习速率
 INITIAL_LEARNING_RATE = 1e-3
@@ -137,14 +137,14 @@ def avg_pool(x, ksize=(2, 2), stride=(2, 2)):
 def get_next_batch(batch_size=128):
     obj = gen_id_card()
     #(batch_size,256,32)
-    inputs = np.zeros([batch_size, OUTPUT_SHAPE[1],OUTPUT_SHAPE[0]])
+    inputs = np.zeros([batch_size, OUTPUT_SHAPE[1],OUTPUT_SHAPE[0]])  #(batch_size,256,32)
     codes = []
 
     for i in range(batch_size):
         #生成不定长度的字串
         image, text, vec = obj.gen_image(True)
         #np.transpose 矩阵转置 (32*256,) => (32,256) => (256,32)
-        inputs[i,:] = np.transpose(image.reshape((OUTPUT_SHAPE[0],OUTPUT_SHAPE[1])))
+        inputs[i,:] = np.transpose(image.reshape((OUTPUT_SHAPE[0],OUTPUT_SHAPE[1])))#(32,256)=>transpose=>(256,32)
         codes.append(list(text))
     targets = [np.asarray(i) for i in codes]
     print targets
